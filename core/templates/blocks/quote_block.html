@@ -1,0 +1,9 @@
+<figure class="citaat-blok">
+    <blockquote class="citaat-blok__tekst"><p>{{ value.citaat }}</p></blockquote>
+    {% if value.auteur %}
+        <figcaption class="citaat-blok__auteur">
+            <strong>{{ value.auteur }}</strong>
+            {% if value.functie %}<span class="citaat-blok__functie">, {{ value.functie }}</span>{% endif %}
+        </figcaption>
+    {% endif %}
+</figure>

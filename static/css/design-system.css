@@ -1,0 +1,68 @@
+/* =====================================================
+   Techture Media – Design Systeem
+   Donker, professioneel — gebaseerd op eversendegier.nl
+   ===================================================== */
+
+:root {
+  /* ── Kleuren ───────────────────────────────────────── */
+  --color-bg:          #0f0f0f;   /* basisachtergrond: bijna zwart */
+  --color-bg-alt:      #1a1a1a;   /* kaarten, secties op afwisseling */
+  --color-bg-raised:   #222222;   /* hover-states, actieve elementen */
+  --color-text:        #f0ece4;   /* primaire tekst: warm crème-wit */
+  --color-text-muted:  #888888;   /* secundaire tekst, metainfo */
+  --color-text-faint:  #555555;   /* placeholders, dividers */
+  --color-accent:      #c8f04d;   /* lime groen — CTAs, highlights */
+  --color-accent-dark: #a8cc38;   /* accent hover-state */
+  --color-border:      #2a2a2a;   /* subtiele randen */
+  --color-border-muted:#1e1e1e;   /* nog subtieler */
+
+  /* ── Typografie ────────────────────────────────────── */
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+
+  --text-xs:   0.75rem;    /*  12px */
+  --text-sm:   0.875rem;   /*  14px */
+  --text-base: 1rem;       /*  16px */
+  --text-lg:   1.25rem;    /*  20px */
+  --text-xl:   1.5rem;     /*  24px */
+  --text-2xl:  2rem;       /*  32px */
+  --text-3xl:  3rem;       /*  48px */
+  --text-4xl:  4.5rem;     /*  72px */
+  --text-5xl:  6rem;       /*  96px */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold:   700;
+  --font-weight-black:  900;
+
+  --line-height-tight:  1.1;
+  --line-height-snug:   1.3;
+  --line-height-normal: 1.6;
+  --line-height-loose:  1.8;
+
+  /* ── Spacing ───────────────────────────────────────── */
+  --space-1:  0.25rem;   /*  4px */
+  --space-2:  0.5rem;    /*  8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-24: 6rem;      /* 96px */
+  --space-32: 8rem;      /* 128px */
+
+  /* ── Layout ────────────────────────────────────────── */
+  --container-max:     1280px;
+  --container-padding: 2rem;
+
+  --radius-sm:   4px;
+  --radius-md:   12px;
+  --radius-lg:   24px;
+  --radius-full: 9999px;
+
+  /* ── Animatie ──────────────────────────────────────── */
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --duration:  0.2s;
+  --duration-slow: 0.4s;
+}

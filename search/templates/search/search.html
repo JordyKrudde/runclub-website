@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="paginakop container">
+        <h1 class="paginakop__titel">Zoeken</h1>
+    </section>
+
+    <div class="zoekpagina container">
+        <form class="zoekpagina__formulier" action="{% url 'search' %}" method="get" role="search">
+            <label for="zoeken" class="sr-only">Zoekterm</label>
+            <div class="zoekpagina__invoer-rij">
+                <input
+                    id="zoeken"
+                    type="search"
+                    name="zoeken"
+                    value="{{ zoekterm }}"
+                    placeholder="Zoek op de website…"
+                    class="zoekpagina__invoer"
+                    autofocus
+                >
+                <button type="submit" class="knop knop--primair">Zoeken</button>
+            </div>
+        </form>
+
+        {% if zoekterm %}
+            <div class="zoekpagina__resultaten">
+                {% if zoekresultaten %}
+                    <p class="zoekpagina__telling">
+                        <strong>{{ zoekresultaten.paginator.count }}</strong>
+                        resultaat{{ zoekresultaten.paginator.count|pluralize:"","en" }}
+                        voor <em>{{ zoekterm }}</em>
+                    </p>
+                    <ul class="zoekpagina__lijst">
+                        {% for resultaat in zoekresultaten %}
+                            <li class="zoekpagina__item">
+                                <a href="{{ resultaat.url }}" class="zoekpagina__link">{{ resultaat.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    {% if zoekresultaten.has_other_pages %}
+                        <nav class="paginering" aria-label="Paginering zoekresultaten">
+                            {% if zoekresultaten.has_previous %}
+                                <a href="?zoeken={{ zoekterm }}&pagina={{ zoekresultaten.previous_page_number }}" class="paginering__link">← Vorige</a>
+                            {% endif %}
+                            <span class="paginering__huidig">
+                                Pagina {{ zoekresultaten.number }} van {{ zoekresultaten.paginator.num_pages }}
+                            </span>
+                            {% if zoekresultaten.has_next %}
+                                <a href="?zoeken={{ zoekterm }}&pagina={{ zoekresultaten.next_page_number }}" class="paginering__link">Volgende →</a>
+                            {% endif %}
+                        </nav>
+                    {% endif %}
+                {% else %}
+                    <p class="zoekpagina__geen-resultaten">
+                        Geen resultaten gevonden voor <em>{{ zoekterm }}</em>.
+                        Probeer een andere zoekterm.
+                    </p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% load static wagtailcore_tags wagtailimages_tags wagtailuserbar navigatie_tags %}
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        {% block title %}{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}{% endblock %}
+        {% block title_suffix %} – Techture Media{% endblock %}
+    </title>
+
+    {% if page.seo_description %}
+        <meta name="description" content="{{ page.seo_description }}">
+    {% elif page.search_description %}
+        <meta name="description" content="{{ page.search_description }}">
+    {% endif %}
+
+    <meta property="og:title" content="{{ page.seo_title|default:page.title }}">
+    <meta property="og:type" content="website">
+    {% if page.og_image %}
+        {% image page.og_image fill-1200x630 as og_img %}
+        <meta property="og:image" content="{{ og_img.full_url }}">
+    {% endif %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    {% wagtailuserbar %}
+
+    <header class="siteheader" id="siteheader">
+        <div class="siteheader__inner">
+            <a href="/" class="siteheader__logo" aria-label="Techture Media – naar de startpagina">
+                <span class="siteheader__logo-tekst">Techture<strong>Media</strong></span>
+            </a>
+
+            <nav class="siteheader__nav" id="mobiel-menu" aria-label="Hoofdnavigatie">
+                {% get_navigatie as nav_items %}
+                <ul class="nav__lijst">
+                    {% for item in nav_items %}
+                        <li class="nav__item {% if item.url == request.path %}nav__item--actief{% endif %}">
+                            <a href="{{ item.url }}" class="nav__link">{{ item.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+
+            <button class="siteheader__menu-knop" aria-expanded="false" aria-controls="mobiel-menu" aria-label="Menu openen">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main id="hoofdinhoud">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="sitefooter">
+        <div class="sitefooter__inner">
+            <div class="sitefooter__merk">
+                <span class="sitefooter__logo">Techture<strong>Media</strong></span>
+                <p class="sitefooter__tagline">Wij bouwen digitale ervaringen die werken.</p>
+            </div>
+
+            <nav class="sitefooter__nav" aria-label="Footernavigatie">
+                {% get_navigatie as footer_items %}
+                <ul class="sitefooter__lijst">
+                    {% for item in footer_items %}
+                        <li><a href="{{ item.url }}" class="sitefooter__link">{{ item.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+
+            <div class="sitefooter__contact">
+                <p><a href="mailto:hallo@techturemedia.nl" class="sitefooter__link">hallo@techturemedia.nl</a></p>
+            </div>
+        </div>
+        <div class="sitefooter__bodem">
+            <p>&copy; {% now "Y" %} Techture Media – Alle rechten voorbehouden</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

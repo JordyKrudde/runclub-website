@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+    <section class="paginakop container">
+        <h1 class="paginakop__titel">{{ page.title }}</h1>
+        {% if page.intro %}
+            <div class="paginakop__intro richtext">{{ page.intro|richtext }}</div>
+        {% endif %}
+    </section>
+
+    {% for blok in page.body %}
+        {% include_block blok %}
+    {% endfor %}
+
+    {% if page.team_sectie_tonen and teamleden %}
+        <section class="team-sectie container">
+            {% if page.team_sectie_titel %}
+                <h2 class="sectie-titel">{{ page.team_sectie_titel }}</h2>
+            {% endif %}
+            <ul class="team-raster">
+                {% for lid in teamleden %}
+                    <li class="teamlid-kaart">
+                        {% if lid.foto %}
+                            {% image lid.foto fill-400x400 as foto %}
+                            <img
+                                src="{{ foto.url }}"
+                                alt="Foto van {{ lid.naam }}"
+                                class="teamlid-kaart__foto"
+                                loading="lazy"
+                            >
+                        {% else %}
+                            <div class="teamlid-kaart__foto teamlid-kaart__foto--placeholder" aria-hidden="true"></div>
+                        {% endif %}
+                        <div class="teamlid-kaart__inhoud">
+                            <h3 class="teamlid-kaart__naam">{{ lid.naam }}</h3>
+                            <p class="teamlid-kaart__functie">{{ lid.functie }}</p>
+                            {% if lid.bio %}
+                                <div class="teamlid-kaart__bio richtext">{{ lid.bio|richtext }}</div>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+{% endblock %}

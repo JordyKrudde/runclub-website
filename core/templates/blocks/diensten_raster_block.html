@@ -1,0 +1,42 @@
+{% load wagtailimages_tags %}
+
+<section class="diensten-raster-blok">
+    <div class="container">
+        {% if value.titel %}
+            <h2 class="diensten-raster-blok__titel">{{ value.titel }}</h2>
+        {% endif %}
+
+        <ul class="diensten-kaart-raster">
+            {% for dienst in value.diensten %}
+                <li class="dienst-kaart-blok">
+                    {% if dienst.icoon %}
+                        {% image dienst.icoon max-96x96 as icoon_img %}
+                        <img
+                            src="{{ icoon_img.url }}"
+                            alt=""
+                            class="dienst-kaart-blok__icoon"
+                            aria-hidden="true"
+                        >
+                    {% endif %}
+
+                    <h3 class="dienst-kaart-blok__titel">{{ dienst.titel }}</h3>
+                    <p class="dienst-kaart-blok__beschrijving">{{ dienst.beschrijving }}</p>
+
+                    {% if dienst.bullet_points %}
+                        <ul class="dienst-kaart-blok__punten">
+                            {% for punt in dienst.bullet_points %}
+                                <li class="dienst-kaart-blok__punt">{{ punt }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if dienst.link_pagina %}
+                        <a href="{{ dienst.link_pagina.url }}" class="dienst-kaart-blok__link">
+                            Meer informatie →
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

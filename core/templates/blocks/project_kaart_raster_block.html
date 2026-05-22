@@ -1,0 +1,50 @@
+{% load wagtailimages_tags %}
+
+<section class="project-raster-blok">
+    <div class="container">
+        {% if value.titel %}
+            <div class="project-raster-blok__header">
+                <h2 class="sectie-titel" style="margin-bottom:0">{{ value.titel }}</h2>
+            </div>
+        {% endif %}
+
+        <ul class="project-raster">
+            {% for project in value.projecten %}
+                <li class="project-kaart">
+                    {% if project.thumbnail %}
+                        <div class="project-kaart__afbeelding-wrapper">
+                            {% image project.thumbnail fill-800x500 as thumb %}
+                            <img
+                                src="{{ thumb.url }}"
+                                alt="{{ project.titel }}"
+                                class="project-kaart__afbeelding"
+                                loading="lazy"
+                            >
+                        </div>
+                    {% endif %}
+
+                    <div class="project-kaart__inhoud">
+                        {% if project.tags %}
+                            <ul class="project-kaart__tags" aria-label="Tags">
+                                {% for tag in project.tags %}
+                                    <li class="project-kaart__tag">{{ tag }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        <h3 class="project-kaart__titel">{{ project.titel }}</h3>
+                        {% if project.subtitel %}
+                            <p class="project-kaart__subtitel">{{ project.subtitel }}</p>
+                        {% endif %}
+                    </div>
+
+                    {% if project.link_pagina %}
+                        <a href="{{ project.link_pagina.url }}" class="project-kaart__link" aria-label="{{ project.titel }} bekijken"></a>
+                    {% elif project.link_url %}
+                        <a href="{{ project.link_url }}" class="project-kaart__link" aria-label="{{ project.titel }} bekijken" target="_blank" rel="noopener noreferrer"></a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

@@ -1,0 +1,18 @@
+{% load wagtailimages_tags %}
+
+<figure class="afbeelding-blok">
+    {% if value.afbeelding %}
+        {% image value.afbeelding width-1200 as afb %}
+        <img
+            src="{{ afb.url }}"
+            width="{{ afb.width }}"
+            height="{{ afb.height }}"
+            alt="{{ value.alt_tekst|default:value.afbeelding.title }}"
+            class="afbeelding-blok__img"
+            loading="lazy"
+        >
+    {% endif %}
+    {% if value.bijschrift %}
+        <figcaption class="afbeelding-blok__bijschrift">{{ value.bijschrift }}</figcaption>
+    {% endif %}
+</figure>

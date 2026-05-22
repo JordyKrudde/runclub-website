@@ -1,0 +1,9 @@
+<section class="cta-blok cta-blok--{{ value.stijl }}">
+    <div class="cta-blok__inhoud">
+        <h2 class="cta-blok__titel">{{ value.titel }}</h2>
+        {% if value.tekst %}<p class="cta-blok__tekst">{{ value.tekst }}</p>{% endif %}
+        {% if value.knop_tekst and value.knop_link %}
+            <a href="{{ value.knop_link }}" class="knop knop--cta">{{ value.knop_tekst }}</a>
+        {% endif %}
+    </div>
+</section>

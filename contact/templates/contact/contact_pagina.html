@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+    <section class="paginakop container">
+        <h1 class="paginakop__titel">{{ page.title }}</h1>
+        {% if page.intro %}
+            <div class="paginakop__intro richtext">{{ page.intro|richtext }}</div>
+        {% endif %}
+    </section>
+
+    <div class="contact-pagina container">
+        <div class="contact-pagina__formulier">
+            <form class="formulier" action="{{ page.url }}" method="post" novalidate>
+                {% csrf_token %}
+                {% for veld in form %}
+                    <div class="formulier__veld {% if veld.errors %}formulier__veld--fout{% endif %}">
+                        <label class="formulier__label" for="{{ veld.id_for_label }}">
+                            {{ veld.label }}
+                            {% if veld.field.required %}<span class="formulier__verplicht" aria-hidden="true">*</span>{% endif %}
+                        </label>
+                        {{ veld }}
+                        {% if veld.help_text %}
+                            <p class="formulier__hulptekst">{{ veld.help_text }}</p>
+                        {% endif %}
+                        {% for fout in veld.errors %}
+                            <p class="formulier__foutmelding" role="alert">{{ fout }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="knop knop--primair">Versturen</button>
+            </form>
+        </div>
+
+        <aside class="contact-pagina__info">
+            <h2 class="contact-pagina__info-titel">Direct contact</h2>
+            <p>
+                <a href="mailto:hallo@techturemedia.nl" class="contact-pagina__link">
+                    hallo@techturemedia.nl
+                </a>
+            </p>
+        </aside>
+    </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% load wagtailimages_tags %}
+
+<section class="hero-blok">
+    {% if value.afbeelding %}
+        {% image value.afbeelding fill-1600x700 as hero_img %}
+        <div class="hero-blok__achtergrond" style="background-image: url('{{ hero_img.url }}');" aria-hidden="true"></div>
+    {% endif %}
+    <div class="hero-blok__inhoud">
+        <h1 class="hero-blok__titel">{{ value.titel }}</h1>
+        {% if value.subtitel %}
+            <p class="hero-blok__subtitel">{{ value.subtitel }}</p>
+        {% endif %}
+        {% if value.cta_tekst %}
+            {% if value.cta_interne_link %}
+                <a href="{{ value.cta_interne_link.url }}" class="knop knop--primair">{{ value.cta_tekst }}</a>
+            {% elif value.cta_externe_link %}
+                <a href="{{ value.cta_externe_link }}" class="knop knop--primair" target="_blank" rel="noopener noreferrer">{{ value.cta_tekst }}</a>
+            {% endif %}
+        {% endif %}
+    </div>
+</section>

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+    <section class="paginakop container">
+        <h1 class="paginakop__titel">{{ page.title }}</h1>
+        {% if page.intro %}
+            <div class="paginakop__intro richtext">{{ page.intro|richtext }}</div>
+        {% endif %}
+    </section>
+
+    {% if alle_categorieën %}
+        <nav class="categorie-filter container" aria-label="Filteren op categorie">
+            <ul class="categorie-filter__lijst">
+                <li class="categorie-filter__item">
+                    <a href="{{ page.url }}" class="categorie-filter__link {% if not actieve_categorie %}categorie-filter__link--actief{% endif %}">
+                        Alle artikelen
+                    </a>
+                </li>
+                {% for cat in alle_categorieën %}
+                    <li class="categorie-filter__item">
+                        <a
+                            href="{{ page.url }}?categorie={{ cat.slug }}"
+                            class="categorie-filter__link {% if actieve_categorie.slug == cat.slug %}categorie-filter__link--actief{% endif %}"
+                        >
+                            {{ cat.naam }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    {% endif %}
+
+    {% if artikelen %}
+        <section class="blog-overzicht container">
+            <ul class="artikel-raster">
+                {% for artikel in artikelen %}
+                    <li class="artikel-kaart">
+                        {% if artikel.uitgelichte_afbeelding %}
+                            {% image artikel.uitgelichte_afbeelding fill-600x380 as art_img %}
+                            <a href="{{ artikel.url }}" class="artikel-kaart__afbeelding-link" tabindex="-1" aria-hidden="true">
+                                <img src="{{ art_img.url }}" alt="{{ artikel.title }}" class="artikel-kaart__afbeelding" loading="lazy">
+                            </a>
+                        {% endif %}
+                        <div class="artikel-kaart__inhoud">
+                            {% if artikel.categorie %}
+                                <a href="{{ page.url }}?categorie={{ artikel.categorie.slug }}" class="artikel-kaart__categorie">
+                                    {{ artikel.categorie.naam }}
+                                </a>
+                            {% endif %}
+                            <h2 class="artikel-kaart__titel">
+                                <a href="{{ artikel.url }}" class="artikel-kaart__link">{{ artikel.title }}</a>
+                            </h2>
+                            <p class="artikel-kaart__intro">{{ artikel.intro }}</p>
+                            <p class="artikel-kaart__meta">
+                                <time datetime="{{ artikel.datum|date:'Y-m-d' }}">{{ artikel.datum|date:"j F Y" }}</time>
+                                {% if artikel.auteur %} · {{ artikel.auteur }}{% endif %}
+                            </p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        {% if artikelen.has_other_pages %}
+            <nav class="paginering container" aria-label="Paginering">
+                {% if artikelen.has_previous %}
+                    <a href="?pagina={{ artikelen.previous_page_number }}{% if actieve_categorie %}&categorie={{ actieve_categorie.slug }}{% endif %}" class="paginering__link paginering__link--vorige">
+                        ← Vorige
+                    </a>
+                {% endif %}
+                <span class="paginering__huidig">
+                    Pagina {{ artikelen.number }} van {{ artikelen.paginator.num_pages }}
+                </span>
+                {% if artikelen.has_next %}
+                    <a href="?pagina={{ artikelen.next_page_number }}{% if actieve_categorie %}&categorie={{ actieve_categorie.slug }}{% endif %}" class="paginering__link paginering__link--volgende">
+                        Volgende →
+                    </a>
+                {% endif %}
+            </nav>
+        {% endif %}
+    {% else %}
+        <p class="container geen-resultaten">Er zijn nog geen artikelen gepubliceerd.</p>
+    {% endif %}
+{% endblock %}

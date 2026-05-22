@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}startpagina{% endblock %}
+
+{% block title %}Techture Media – Wij bouwen digitale ervaringen{% endblock %}
+{% block title_suffix %}{% endblock %}
+
+{% block content %}
+
+    {# Hero #}
+    <section class="hero">
+        {% if page.hero_achtergrond %}
+            {% image page.hero_achtergrond fill-1600x700 as hero_img %}
+            <div class="hero__achtergrond" style="background-image: url('{{ hero_img.url }}');" aria-hidden="true"></div>
+        {% endif %}
+        <div class="hero__inhoud container">
+            <h1 class="hero__titel">{{ page.hero_titel }}</h1>
+            {% if page.hero_subtitel %}
+                <p class="hero__subtitel">{{ page.hero_subtitel }}</p>
+            {% endif %}
+            {% if page.hero_cta_tekst and page.hero_cta_pagina %}
+                <a href="{{ page.hero_cta_pagina.url }}" class="knop knop--primair knop--groot">
+                    {{ page.hero_cta_tekst }}
+                </a>
+            {% endif %}
+        </div>
+    </section>
+
+    {# Introductie #}
+    {% if page.intro_tekst %}
+        <section class="intro-sectie container">
+            {% if page.intro_titel %}
+                <h2 class="intro-sectie__titel">{{ page.intro_titel }}</h2>
+            {% endif %}
+            <div class="intro-sectie__tekst richtext">
+                {{ page.intro_tekst|richtext }}
+            </div>
+        </section>
+    {% endif %}
+
+    {# Diensten teaser #}
+    {% if uitgelichte_diensten %}
+        <section class="diensten-teaser">
+            <div class="container">
+                {% if page.diensten_sectie_titel %}
+                    <h2 class="sectie-titel">{{ page.diensten_sectie_titel }}</h2>
+                {% endif %}
+                <ul class="diensten-raster">
+                    {% for dienst in uitgelichte_diensten %}
+                        <li class="dienst-kaart">
+                            {% if dienst.uitgelichte_afbeelding %}
+                                {% image dienst.uitgelichte_afbeelding fill-600x400 as dienst_img %}
+                                <a href="{{ dienst.url }}" class="dienst-kaart__afbeelding-link" tabindex="-1" aria-hidden="true">
+                                    <img src="{{ dienst_img.url }}" alt="{{ dienst.title }}" class="dienst-kaart__afbeelding" loading="lazy">
+                                </a>
+                            {% endif %}
+                            <div class="dienst-kaart__inhoud">
+                                <h3 class="dienst-kaart__titel">
+                                    <a href="{{ dienst.url }}" class="dienst-kaart__link">{{ dienst.title }}</a>
+                                </h3>
+                                <p class="dienst-kaart__beschrijving">{{ dienst.korte_beschrijving }}</p>
+                                <a href="{{ dienst.url }}" class="dienst-kaart__meer">Meer lezen →</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    {% endif %}
+
+    {# Blog teaser #}
+    {% if recente_artikelen %}
+        <section class="blog-teaser">
+            <div class="container">
+                {% if page.blog_sectie_titel %}
+                    <h2 class="sectie-titel">{{ page.blog_sectie_titel }}</h2>
+                {% endif %}
+                <ul class="artikel-raster">
+                    {% for artikel in recente_artikelen %}
+                        <li class="artikel-kaart">
+                            {% if artikel.uitgelichte_afbeelding %}
+                                {% image artikel.uitgelichte_afbeelding fill-600x380 as art_img %}
+                                <a href="{{ artikel.url }}" class="artikel-kaart__afbeelding-link" tabindex="-1" aria-hidden="true">
+                                    <img src="{{ art_img.url }}" alt="{{ artikel.title }}" class="artikel-kaart__afbeelding" loading="lazy">
+                                </a>
+                            {% endif %}
+                            <div class="artikel-kaart__inhoud">
+                                {% if artikel.categorie %}
+                                    <span class="artikel-kaart__categorie">{{ artikel.categorie.naam }}</span>
+                                {% endif %}
+                                <h3 class="artikel-kaart__titel">
+                                    <a href="{{ artikel.url }}" class="artikel-kaart__link">{{ artikel.title }}</a>
+                                </h3>
+                                <p class="artikel-kaart__intro">{{ artikel.intro }}</p>
+                                <p class="artikel-kaart__meta">
+                                    <time datetime="{{ artikel.datum|date:'Y-m-d' }}">{{ artikel.datum|date:"j F Y" }}</time>
+                                    {% if artikel.auteur %} · {{ artikel.auteur }}{% endif %}
+                                </p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    {% endif %}
+
+    {# Vrije StreamField body #}
+    {% for blok in page.body %}
+        {% include_block blok %}
+    {% endfor %}
+
+{% endblock %}

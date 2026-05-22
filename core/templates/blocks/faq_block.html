@@ -1,0 +1,58 @@
+{% load wagtailcore_tags %}
+
+<section class="faq-blok">
+    <div class="container">
+        <h2 class="faq-blok__titel">{{ value.titel }}</h2>
+
+        <ul class="faq-lijst" id="faq-{{ value|slugify }}">
+            {% for item in value.items %}
+                <li class="faq-item" id="faq-item-{{ forloop.counter }}">
+                    <button
+                        class="faq-item__knop"
+                        aria-expanded="false"
+                        aria-controls="faq-antwoord-{{ forloop.counter }}"
+                    >
+                        <span>{{ item.vraag }}</span>
+                        <svg class="faq-item__icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                    </button>
+                    <div
+                        class="faq-item__antwoord"
+                        id="faq-antwoord-{{ forloop.counter }}"
+                        role="region"
+                    >
+                        <div class="faq-item__antwoord-inner richtext">
+                            {{ item.antwoord|richtext }}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+<script>
+(function () {
+    document.querySelectorAll('.faq-item__knop').forEach(function (knop) {
+        knop.addEventListener('click', function () {
+            const item = this.closest('.faq-item');
+            const isOpen = item.classList.contains('faq-item--open');
+
+            // Sluit alle andere items in hetzelfde FAQ-blok
+            const lijst = item.closest('.faq-lijst');
+            lijst.querySelectorAll('.faq-item--open').forEach(function (open) {
+                open.classList.remove('faq-item--open');
+                open.querySelector('.faq-item__knop').setAttribute('aria-expanded', 'false');
+            });
+
+            // Open/sluit dit item
+            if (!isOpen) {
+                item.classList.add('faq-item--open');
+                this.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+})();
+</script>

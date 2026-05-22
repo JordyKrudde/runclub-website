@@ -1,0 +1,30 @@
+{% load wagtailimages_tags %}
+
+<section class="testimonial-blok">
+    <div class="testimonial-blok__inner">
+        {% if value.foto_auteur %}
+            {% image value.foto_auteur fill-144x144 as foto %}
+            <img
+                src="{{ foto.url }}"
+                alt="Foto van {{ value.naam_auteur }}"
+                class="testimonial-blok__foto"
+                loading="lazy"
+            >
+        {% else %}
+            <div class="testimonial-blok__foto--placeholder" aria-hidden="true"></div>
+        {% endif %}
+
+        <div class="testimonial-blok__inhoud">
+            <div class="testimonial-blok__aanhalingsteken" aria-hidden="true">"</div>
+            <blockquote class="testimonial-blok__citaat">
+                {{ value.citaat }}
+            </blockquote>
+            <footer class="testimonial-blok__auteur">
+                <span class="testimonial-blok__naam">{{ value.naam_auteur }}</span>
+                {% if value.rol_auteur %}
+                    <span>, {{ value.rol_auteur }}</span>
+                {% endif %}
+            </footer>
+        </div>
+    </div>
+</section>

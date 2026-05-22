@@ -1,0 +1,15 @@
+<section class="genummerde-features-blok">
+    <div class="container">
+        <h2 class="genummerde-features-blok__titel">{{ value.titel }}</h2>
+
+        <ul class="genummerde-features-raster">
+            {% for item in value.items %}
+                <li class="genummerd-kenmerk">
+                    <p class="genummerd-kenmerk__nummer" aria-hidden="true">{{ item.nummer }}</p>
+                    <h3 class="genummerd-kenmerk__titel">{{ item.titel }}</h3>
+                    <p class="genummerd-kenmerk__beschrijving">{{ item.beschrijving }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

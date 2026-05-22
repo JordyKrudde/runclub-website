@@ -1,0 +1,33 @@
+{% load wagtailimages_tags %}
+
+<section class="statistieken-blok">
+    <div class="container">
+        {% if value.titel %}
+            <h2 class="statistieken-blok__titel">{{ value.titel }}</h2>
+        {% endif %}
+
+        <ul class="statistieken-raster">
+            {% for item in value.statistieken %}
+                <li class="statistiek-item">
+                    {% if item.klant_logo %}
+                        {% image item.klant_logo max-160x60 as logo_img %}
+                        <img
+                            src="{{ logo_img.url }}"
+                            alt=""
+                            class="statistiek-item__logo"
+                            aria-hidden="true"
+                            loading="lazy"
+                        >
+                    {% endif %}
+
+                    <p class="statistiek-item__getal" aria-label="{{ item.getal }}">{{ item.getal }}</p>
+                    <p class="statistiek-item__label">{{ item.label }}</p>
+
+                    {% if item.beschrijving %}
+                        <p class="statistiek-item__beschrijving">{{ item.beschrijving }}</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

@@ -1,0 +1,25 @@
+{% load wagtailimages_tags %}
+
+<section class="logo-strip-blok">
+    <div class="container">
+        {% if value.titel %}
+            <p class="logo-strip-blok__titel">{{ value.titel }}</p>
+        {% endif %}
+
+        <ul class="logo-strip-raster">
+            {% for logo in value.logos %}
+                <li class="logo-strip-item">
+                    {% if logo.afbeelding %}
+                        {% image logo.afbeelding max-200x80 as logo_img %}
+                        <img
+                            src="{{ logo_img.url }}"
+                            alt="{{ logo.alt_tekst }}"
+                            class="logo-strip-item__afbeelding"
+                            loading="lazy"
+                        >
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
