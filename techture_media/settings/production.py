@@ -35,7 +35,7 @@ MIDDLEWARE = [  # noqa: F405
 ]
 
 # ── Static files ──────────────────────────────────────────────────────────────
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 # ── Security ──────────────────────────────────────────────────────────────────
 # Railway termineert SSL bij hun load balancer — de app ontvangt intern HTTP.
