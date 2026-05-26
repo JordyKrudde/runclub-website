@@ -8,7 +8,10 @@ DEBUG = False
 
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
+# Kommagescheiden lijst van hosts. Gebruik Django's dot-notatie voor subdomeinen:
+#   .up.railway.app   → matcht alle *.up.railway.app subdomeinen
+#   healthcheck.railway.app → Railway's interne healthcheck
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",") if h.strip()]
 
 # ── Database ──────────────────────────────────────────────────────────────────
 # Railway injecteert automatisch DATABASE_URL (postgresql://user:pass@host/db)
@@ -67,3 +70,43 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@techture.medi
 
 # ── Wagtail ───────────────────────────────────────────────────────────────────
 WAGTAILADMIN_BASE_URL = os.environ.get("WAGTAILADMIN_BASE_URL", "https://techture.media")
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+# Stuur alle Django-fouten naar stderr zodat Railway ze opvangt in Deploy Logs.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "django.request": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        "django.security": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+    },
+}
