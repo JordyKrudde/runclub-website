@@ -21,4 +21,4 @@ COPY . .
 EXPOSE 8000
 
 # collectstatic + migrate bij elke deploy, daarna Gunicorn opstarten
-CMD ["sh", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && gunicorn techture_media.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2 --timeout 120 --access-logfile - --error-logfile - --capture-output --log-level info"]
+CMD ["sh", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py ensure_superuser && gunicorn techture_media.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2 --timeout 120 --access-logfile - --error-logfile - --capture-output --log-level info"]
