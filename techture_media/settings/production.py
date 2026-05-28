@@ -37,8 +37,51 @@ MIDDLEWARE = [  # noqa: F405
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
-# ── Static files ──────────────────────────────────────────────────────────────
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+# ── Storage ───────────────────────────────────────────────────────────────────
+# Stel AWS_STORAGE_BUCKET_NAME in om S3-compatibele opslag te activeren
+# (aanbevolen: Cloudflare R2 — gratis tot 10 GB, geen egress-kosten).
+# Zonder deze variabele worden media-bestanden lokaal opgeslagen; ze
+# verdwijnen dan bij elke Railway-redeploy.
+
+_s3_bucket = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+
+if _s3_bucket:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": {
+                "access_key": os.environ["AWS_ACCESS_KEY_ID"],
+                "secret_key": os.environ["AWS_SECRET_ACCESS_KEY"],
+                "bucket_name": _s3_bucket,
+                "endpoint_url": os.environ.get("AWS_S3_ENDPOINT_URL"),
+                "custom_domain": os.environ.get("AWS_S3_CUSTOM_DOMAIN"),
+                "file_overwrite": False,
+                "querystring_auth": False,
+                "default_acl": "public-read",
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
+    _custom_domain = os.environ.get("AWS_S3_CUSTOM_DOMAIN")
+    _endpoint = os.environ.get("AWS_S3_ENDPOINT_URL", "")
+    MEDIA_URL = (
+        f"https://{_custom_domain}/"
+        if _custom_domain
+        else f"{_endpoint}/{_s3_bucket}/"
+    )
+else:
+    # Geen S3: lokale opslag + Django serveert /media/ zelf.
+    # Bestanden zijn tijdelijk — gebruik S3 voor persistentie.
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
 
 # ── Security ──────────────────────────────────────────────────────────────────
 # Railway termineert SSL bij hun load balancer — de app ontvangt intern HTTP.
