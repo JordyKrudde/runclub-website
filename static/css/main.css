@@ -179,8 +179,11 @@ h3 { font-size: var(--text-xl); line-height: 1.15; }
 }
 .siteheader__cta:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 0 var(--color-border); }
 
-.siteheader__menu-knop { display: none; flex-direction: column; gap: 5px; padding: var(--space-2); color: var(--color-text); }
-.siteheader__menu-knop span { display: block; width: 22px; height: 2px; background: currentColor; transition: transform var(--duration), opacity var(--duration); }
+.siteheader__menu-knop { display: none; flex-direction: column; justify-content: center; gap: 5px; padding: var(--space-2); color: var(--color-text); z-index: 101; position: relative; }
+.siteheader__menu-knop span { display: block; width: 22px; height: 2px; background: currentColor; transition: transform var(--duration-slow) var(--ease-out), opacity var(--duration) var(--ease-out); }
+.siteheader__menu-knop--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.siteheader__menu-knop--open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.siteheader__menu-knop--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ── Main offset ────────────────────────────────────────────────────────────── */
 main { padding-top: 80px; }
@@ -455,6 +458,12 @@ main { padding-top: 80px; }
 .zoekpagina__geen-resultaten,
 .geen-resultaten { color: var(--color-text-muted); padding-block: var(--space-16); }
 
+/* ── Animaties ──────────────────────────────────────────────────────────────── */
+@keyframes nav-item-in {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ── Responsief ─────────────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .hero-blok__inner { grid-template-columns: 1fr; }
@@ -468,10 +477,42 @@ main { padding-top: 80px; }
 @media (max-width: 768px) {
   :root { --container-padding: 1.25rem; }
   main { padding-top: 64px; }
-  .siteheader__nav { display: none; }
-  .siteheader__nav--open { display: flex; flex-direction: column; position: fixed; inset: 64px 0 0; background: var(--color-bg); padding: var(--space-8) var(--container-padding); border-top: 2px solid var(--color-border); z-index: 99; }
-  .nav__lijst { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
-  .nav__link { font-size: var(--text-lg); }
+  .siteheader__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    background: var(--color-bg);
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-1rem);
+    transition: opacity var(--duration-slow) var(--ease-out),
+                transform var(--duration-slow) var(--ease-out),
+                visibility 0s linear var(--duration-slow);
+  }
+  .siteheader__nav--open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity var(--duration-slow) var(--ease-out),
+                transform var(--duration-slow) var(--ease-out);
+  }
+  .nav__lijst { flex-direction: column; align-items: center; gap: var(--space-6); }
+  .nav__link { font-size: var(--text-2xl); }
+  .siteheader__nav--open .nav__item {
+    animation: nav-item-in var(--duration-slow) var(--ease-out) backwards;
+  }
+  .siteheader__nav--open .nav__item:nth-child(1) { animation-delay: 0.05s; }
+  .siteheader__nav--open .nav__item:nth-child(2) { animation-delay: 0.1s; }
+  .siteheader__nav--open .nav__item:nth-child(3) { animation-delay: 0.15s; }
+  .siteheader__nav--open .nav__item:nth-child(4) { animation-delay: 0.2s; }
+  .siteheader__nav--open .nav__item:nth-child(5) { animation-delay: 0.25s; }
+  .siteheader__nav--open .nav__item:nth-child(6) { animation-delay: 0.3s; }
+  .siteheader__nav--open .nav__item:nth-child(7) { animation-delay: 0.35s; }
+  .siteheader__nav--open .nav__item:nth-child(8) { animation-delay: 0.4s; }
   .siteheader__menu-knop { display: flex; }
   .event-raster { grid-template-columns: 1fr; }
   .route-raster { grid-template-columns: 1fr; }
