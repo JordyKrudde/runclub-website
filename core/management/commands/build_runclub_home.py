@@ -35,6 +35,17 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        from home.models import HomePage
+
+        bestaande_homepage = HomePage.objects.first()
+        if bestaande_homepage and bestaande_homepage.body and not options["leeg"]:
+            self.stdout.write(
+                self.style.SUCCESS(
+                    "Startpagina heeft al inhoud — build_runclub_home overgeslagen."
+                )
+            )
+            return
+
         self.stdout.write("⏳  Placeholder afbeelding aanmaken...")
         self.placeholder = self._maak_placeholder_afbeelding()
 

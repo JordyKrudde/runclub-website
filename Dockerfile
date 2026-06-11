@@ -20,5 +20,7 @@ COPY . .
 
 EXPOSE 8000
 
-# collectstatic + migrate bij elke deploy, daarna Gunicorn opstarten
-CMD ["sh", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py ensure_superuser && gunicorn runclub.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2 --timeout 120 --access-logfile - --error-logfile - --capture-output --log-level info"]
+# collectstatic + migrate bij elke deploy, daarna Gunicorn opstarten.
+# build_runclub_home is idempotent: vult de startpagina alleen als deze nog
+# leeg is (eerste deploy) en doet daarna niets meer.
+CMD ["sh", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py ensure_superuser && python manage.py build_runclub_home && gunicorn runclub.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2 --timeout 120 --access-logfile - --error-logfile - --capture-output --log-level info"]
