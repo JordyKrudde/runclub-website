@@ -8,7 +8,7 @@ from .blocks import STANDARD_BLOCKS
 
 
 class BasePage(Page):
-    """Abstracte basisklasse voor alle paginatypen van Techture Media."""
+    """Abstracte basisklasse voor alle paginatypen."""
 
     seo_description = models.CharField(
         verbose_name="SEO-omschrijving",
@@ -62,14 +62,3 @@ class BasePage(Page):
 
     class Meta:
         abstract = True
-
-
-class BlokkenTestPagina(BasePage):
-    """Testpagina met één demo-instantie van elk beschikbaar StreamField blok."""
-
-    parent_page_types = ["home.HomePage"]
-    subpage_types = []
-
-    class Meta:
-        verbose_name = "Blokken testpagina"
-        verbose_name_plural = "Blokken testpagina's"

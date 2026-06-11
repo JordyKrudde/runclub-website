@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DJANGO_SETTINGS_MODULE: techture_media.settings.dev
+      DJANGO_SETTINGS_MODULE: runclub.settings.dev
     depends_on:
       db:
         condition: service_healthy
@@ -17,11 +17,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: techture_media
-      POSTGRES_USER: techture_media
-      POSTGRES_PASSWORD: techture_media
+      POSTGRES_DB: runclub
+      POSTGRES_USER: runclub
+      POSTGRES_PASSWORD: runclub
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U techture_media"]
+      test: ["CMD-SHELL", "pg_isready -U runclub"]
       interval: 5s
       timeout: 5s
       retries: 5

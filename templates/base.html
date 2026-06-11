@@ -7,7 +7,7 @@
 
     <title>
         {% block title %}{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}{% endblock %}
-        {% block title_suffix %} – Techture Media{% endblock %}
+        {% block title_suffix %} – Bolt Run Club{% endblock %}
     </title>
 
     {% if page.seo_description %}
@@ -16,7 +16,7 @@
         <meta name="description" content="{{ page.search_description }}">
     {% endif %}
 
-    <meta property="og:title" content="{% if page.seo_title %}{{ page.seo_title }}{% elif page.title %}{{ page.title }}{% else %}Techture Media{% endif %}">
+    <meta property="og:title" content="{% if page.seo_title %}{{ page.seo_title }}{% elif page.title %}{{ page.title }}{% else %}Bolt Run Club{% endif %}">
     <meta property="og:type" content="website">
     {% if page.og_image %}
         {% image page.og_image fill-1200x630 as og_img %}
@@ -25,7 +25,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Narrow:wght@700&family=Lexend:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
@@ -36,8 +37,8 @@
 
     <header class="siteheader" id="siteheader">
         <div class="siteheader__inner">
-            <a href="/" class="siteheader__logo" aria-label="Techture Media – naar de startpagina">
-                <span class="siteheader__logo-tekst">Techture<strong>Media</strong></span>
+            <a href="/" class="siteheader__logo" aria-label="Bolt Run Club – naar de startpagina">
+                BOLT RUN CLUB
             </a>
 
             <nav class="siteheader__nav" id="mobiel-menu" aria-label="Hoofdnavigatie">
@@ -48,8 +49,14 @@
                             <a href="{{ item.url }}" class="nav__link">{{ item.title }}</a>
                         </li>
                     {% endfor %}
+                    <li class="nav__item"><a href="#" class="nav__link">Runs</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link">Routes</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link">Stats</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link">Community</a></li>
                 </ul>
             </nav>
+
+            <a href="#" class="siteheader__cta">JOIN CLUB</a>
 
             <button class="siteheader__menu-knop" aria-expanded="false" aria-controls="mobiel-menu" aria-label="Menu openen">
                 <span></span><span></span><span></span>
@@ -64,27 +71,31 @@
     <footer class="sitefooter">
         <div class="sitefooter__inner">
             <div class="sitefooter__merk">
-                <span class="sitefooter__logo">Techture<strong>Media</strong></span>
-                <p class="sitefooter__tagline">Wij bouwen digitale ervaringen die werken.</p>
+                <div class="sitefooter__logo">BOLT RUN CLUB</div>
+                <p class="sitefooter__tagline">Fueling the city's pulse through every stride, sweat, and social mile.</p>
             </div>
 
-            <nav class="sitefooter__nav" aria-label="Footernavigatie">
-                {% get_navigatie as footer_items %}
-                <ul class="sitefooter__lijst">
-                    {% for item in footer_items %}
-                        <li><a href="{{ item.url }}" class="sitefooter__link">{{ item.title }}</a></li>
-                    {% endfor %}
-                </ul>
-            </nav>
-
-            <div class="sitefooter__contact">
-                <p><a href="mailto:hallo@techturemedia.nl" class="sitefooter__link">hallo@techturemedia.nl</a></p>
+            <div>
+                <nav class="sitefooter__nav" aria-label="Footernavigatie">
+                    {% get_navigatie as footer_items %}
+                    <ul class="sitefooter__lijst">
+                        {% for item in footer_items %}
+                            <li><a href="{{ item.url }}" class="sitefooter__link">{{ item.title }}</a></li>
+                        {% endfor %}
+                        <li><a href="#" class="sitefooter__link">Privacy</a></li>
+                        <li><a href="#" class="sitefooter__link">Terms</a></li>
+                        <li><a href="#" class="sitefooter__link">Safety</a></li>
+                        <li><a href="#" class="sitefooter__link">Contact</a></li>
+                    </ul>
+                </nav>
+                <p class="sitefooter__bodem">&copy; {% now "Y" %} Bolt Run Club. Fast and fun.</p>
             </div>
-        </div>
-        <div class="sitefooter__bodem">
-            <p>&copy; {% now "Y" %} Techture Media – Alle rechten voorbehouden</p>
         </div>
     </footer>
+
+    <a href="#" class="fab" aria-label="Bekijk agenda">
+        <span class="material-symbols-outlined">calendar_today</span>
+    </a>
 
     <script src="{% static 'js/main.js' %}"></script>
     {% block extra_js %}{% endblock %}

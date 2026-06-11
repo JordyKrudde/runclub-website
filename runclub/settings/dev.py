@@ -2,7 +2,7 @@ from .base import *  # noqa: F401, F403
 
 DEBUG = True
 
-SECRET_KEY = "django-insecure-dev-only-techture-media-niet-in-productie-abc123xyz"
+SECRET_KEY = "django-insecure-dev-only-runclub-niet-in-productie-abc123xyz"
 
 ALLOWED_HOSTS = ["*"]
 

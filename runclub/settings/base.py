@@ -36,10 +36,7 @@ WAGTAIL_APPS = [
 PROJECT_APPS = [
     "core",
     "home",
-    "diensten",
-    "over",
-    "blog",
-    "contact",
+    "search",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + WAGTAIL_APPS + PROJECT_APPS
@@ -55,7 +52,7 @@ MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
-ROOT_URLCONF = "techture_media.urls"
+ROOT_URLCONF = "runclub.urls"
 
 TEMPLATES = [
     {
@@ -73,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "techture_media.wsgi.application"
+WSGI_APPLICATION = "runclub.wsgi.application"
 
 DATABASES = {
     "default": {
@@ -109,7 +106,7 @@ MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-WAGTAIL_SITE_NAME = "Techture Media"
+WAGTAIL_SITE_NAME = "Runclub"
 WAGTAILADMIN_BASE_URL = "http://localhost:8000"
 
 WAGTAILIMAGES_MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10 MB

@@ -4,7 +4,7 @@ import sys
 
 
 def main():
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "techture_media.settings.production")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "runclub.settings.production")
 
     try:
         from django.core.management import execute_from_command_line

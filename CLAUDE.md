@@ -1,4 +1,4 @@
-# Claude Code – Techture Media website
+# Claude Code – Runclub website
 
 Lees dit bestand altijd eerst voordat je wijzigingen aanbrengt in dit project.
 Lees ook **DESIGN.md** voor het volledige design systeem, kleurpalet, typografie en overzicht van beschikbare blokken.
@@ -18,11 +18,7 @@ Lees ook **DESIGN.md** voor het volledige design systeem, kleurpalet, typografie
 
 | App        | Paginatype(s)                                    |
 |------------|--------------------------------------------------|
-| `home`     | `HomePage` – startpagina                        |
-| `diensten` | `DienstenOverzichtPagina`, `DienstPagina`       |
-| `over`     | `OverOnsPagina` + `TeamLid` snippet             |
-| `blog`     | `BlogOverzichtPagina`, `BlogArtikelPagina`      |
-| `contact`  | `ContactPagina` (Wagtail FormBuilder)           |
+| `home`     | `HomePage` – startpagina (root)                 |
 | `core`     | Abstracte `BasePage`, alle StreamField blokken  |
 | `search`   | Zoekview                                         |
 
@@ -31,31 +27,21 @@ Lees ook **DESIGN.md** voor het volledige design systeem, kleurpalet, typografie
 ```
 Root
 └── HomePage
-    ├── DienstenOverzichtPagina
-    │   └── DienstPagina (meerdere)
-    ├── OverOnsPagina
-    ├── BlogOverzichtPagina
-    │   └── BlogArtikelPagina (meerdere)
-    ├── ContactPagina
-    └── BlokkenTestPagina  (aangemaakt via make fixtures)
 ```
+
+Nieuwe pagina's worden toegevoegd als `subpage_type` van `HomePage` (of van
+elkaar) zodra er nieuwe paginatypen nodig zijn.
 
 ## Conventies
 
-- Alle paginamodellen erven van `core.models.BasePage` (behalve `ContactPagina` → `AbstractEmailForm`).
+- Alle paginamodellen erven van `core.models.BasePage` (tenzij er een
+  Django-beperking is, zoals bij formulieren via `AbstractEmailForm`).
 - Nieuwe paginatypen: voeg toe als subpage_type bij de juiste ouder.
 - Alle StreamField blokken staan in `core/blocks.py`.
 - Nieuwe blokken: voeg toe aan `STANDARD_BLOCKS` én maak een template in `core/templates/blocks/`.
 - Alle labels, verbose_name en help_text in het **Nederlands**.
 - Geen logica in templates – alleen weergave.
-- SEO-velden (`seo_description`, `og_image`) zitten op elke pagina via `BasePage` of handmatig op `ContactPagina`.
-
-## Snippets
-
-| Snippet         | App    | Beheerd via          |
-|-----------------|--------|----------------------|
-| `TeamLid`       | over   | Wagtail Snippets     |
-| `BlogCategorie` | blog   | Wagtail Snippets     |
+- SEO-velden (`seo_description`, `og_image`) zitten op elke pagina via `BasePage`.
 
 ## Navigatie
 
@@ -71,13 +57,13 @@ make migrate        # Migraties uitvoeren
 make superuser      # Beheerdersaccount aanmaken
 make shell          # Django shell
 make collectstatic  # Statische bestanden verzamelen
-make fixtures       # Demo-pagina's en blokken-testinhoud aanmaken
-make fixtures-leeg  # Bestaande inhoud verwijderen en opnieuw aanmaken
 make up             # Docker containers starten
 make down           # Docker containers stoppen
 make fresh          # Installeer + migreer + start
-make dfixtures      # Fixtures in Docker container aanmaken
 ```
+
+Daarnaast: `python manage.py build_runclub_home` vult de homepage met de
+content/blokken volgens het Bolt Run Club Stitch-ontwerp.
 
 ## Wat NIET te doen
 

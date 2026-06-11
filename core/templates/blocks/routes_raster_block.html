@@ -1,0 +1,36 @@
+{% load wagtailimages_tags %}
+
+<section class="routes-raster-blok">
+    <div class="container">
+        <div class="routes-raster-blok__header">
+            {% if value.label %}
+                <span class="routes-raster-blok__label">{{ value.label }}</span>
+            {% endif %}
+            {% if value.titel %}
+                <h2 class="sectie-titel">{{ value.titel }}</h2>
+            {% endif %}
+            {% if value.tekst %}
+                <p class="routes-raster-blok__tekst">{{ value.tekst }}</p>
+            {% endif %}
+        </div>
+
+        <ul class="route-raster">
+            {% for route in value.routes %}
+                <li class="route-kaart">
+                    {% if route.afbeelding %}
+                        {% image route.afbeelding fill-800x600 as route_img %}
+                        <img src="{{ route_img.url }}" alt="{{ route.titel }}" class="route-kaart__afbeelding" loading="lazy">
+                    {% endif %}
+                    <div class="route-kaart__overlay">
+                        <div class="route-kaart__inhoud">
+                            {% if route.tag %}
+                                <span class="route-kaart__tag">{{ route.tag }}</span>
+                            {% endif %}
+                            <h3 class="route-kaart__titel">{{ route.titel }}</h3>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

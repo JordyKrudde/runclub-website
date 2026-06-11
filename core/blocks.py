@@ -2,6 +2,7 @@ from wagtail.blocks import (
     CharBlock,
     ChoiceBlock,
     EmailBlock,
+    IntegerBlock,
     ListBlock,
     PageChooserBlock,
     RichTextBlock,
@@ -17,12 +18,27 @@ from wagtail.images.blocks import ImageChooserBlock
 # ─── Bestaande blokken ────────────────────────────────────────────────────────
 
 class HeroBlock(StructBlock):
+    badge_tekst = CharBlock(
+        label="Badge-tekst",
+        max_length=50,
+        required=False,
+        help_text="Optioneel label boven de titel, bv. 'Est. 2024 / Urban Athletics'.",
+    )
     titel = CharBlock(label="Titel", max_length=100)
     subtitel = CharBlock(label="Subtitel", max_length=200, required=False)
     afbeelding = ImageChooserBlock(label="Afbeelding")
     cta_tekst = CharBlock(label="Knoptekst", max_length=50, required=False)
     cta_interne_link = PageChooserBlock(label="Interne link", required=False)
     cta_externe_link = URLBlock(label="Externe link", required=False)
+    secundaire_cta_tekst = CharBlock(
+        label="Secundaire knoptekst", max_length=50, required=False
+    )
+    secundaire_cta_interne_link = PageChooserBlock(
+        label="Secundaire interne link", required=False
+    )
+    secundaire_cta_externe_link = URLBlock(
+        label="Secundaire externe link", required=False
+    )
 
     class Meta:
         template = "blocks/hero_block.html"
@@ -341,6 +357,160 @@ class ContactCTABlock(StructBlock):
         label = "Contact CTA"
 
 
+class EventKaartBlock(StructBlock):
+    """Eén evenement binnen een EventenRasterBlock."""
+
+    afbeelding = ImageChooserBlock(label="Afbeelding")
+    categorie_tag = CharBlock(
+        label="Categorie",
+        max_length=30,
+        help_text="Bv. 'TEMPO RUN', 'TRAIL RUN', 'SOCIAL 5K'",
+    )
+    titel = CharBlock(label="Titel", max_length=100)
+    locatie = CharBlock(label="Locatie", max_length=150)
+    datum_maand = CharBlock(
+        label="Maand",
+        max_length=10,
+        help_text="Bv. 'OCT'",
+    )
+    datum_dag = CharBlock(
+        label="Dag",
+        max_length=4,
+        help_text="Bv. '12'",
+    )
+    tijd = CharBlock(label="Tijd", max_length=30, help_text="Bv. '7:00 PM'")
+    niveau = CharBlock(
+        label="Niveau",
+        max_length=30,
+        help_text="Bv. 'Intermediate', 'Difficult', 'All Levels'",
+    )
+    knop_tekst = CharBlock(
+        label="Knoptekst", max_length=30, default="RSVP NOW"
+    )
+    knop_link = URLBlock(label="Knoplink", required=False)
+
+    class Meta:
+        icon = "date"
+        label = "Event"
+
+
+class EventenRasterBlock(StructBlock):
+    """Raster van aankomende evenementen."""
+
+    label = CharBlock(
+        label="Eyebrow-label",
+        max_length=50,
+        required=False,
+        help_text="Bv. 'Don't Miss Out'",
+    )
+    titel = CharBlock(
+        label="Sectietitel",
+        max_length=100,
+        required=False,
+        help_text="Bv. 'Upcoming Events'",
+    )
+    link_tekst = CharBlock(
+        label="Linktekst",
+        max_length=50,
+        required=False,
+        help_text="Bv. 'VIEW FULL CALENDAR'",
+    )
+    link_url = URLBlock(label="Linkadres", required=False)
+    events = ListBlock(EventKaartBlock(), label="Evenementen")
+
+    class Meta:
+        template = "blocks/evenementen_raster_block.html"
+        icon = "date"
+        label = "Evenementen raster"
+
+
+class RouteKaartBlock(StructBlock):
+    """Eén routekaart binnen een RoutesRasterBlock."""
+
+    afbeelding = ImageChooserBlock(label="Afbeelding")
+    tag = CharBlock(
+        label="Tag",
+        max_length=30,
+        help_text="Bv. 'FLAT & FAST', 'STAIR CLIMBS', 'SCENIC'",
+    )
+    titel = CharBlock(label="Titel", max_length=100)
+
+    class Meta:
+        icon = "site"
+        label = "Route"
+
+
+class RoutesRasterBlock(StructBlock):
+    """Raster van routekaarten."""
+
+    label = CharBlock(
+        label="Eyebrow-label",
+        max_length=50,
+        required=False,
+        help_text="Bv. 'The City is our Track'",
+    )
+    titel = CharBlock(label="Sectietitel", max_length=100, required=False)
+    tekst = TextBlock(label="Introtekst", required=False)
+    routes = ListBlock(RouteKaartBlock(), label="Routes")
+
+    class Meta:
+        template = "blocks/routes_raster_block.html"
+        icon = "site"
+        label = "Routes raster"
+
+
+class DoelTrackerBlock(StructBlock):
+    """Voortgangsbalk richting een doel."""
+
+    titel = CharBlock(label="Titel", max_length=100)
+    beschrijving = TextBlock(label="Beschrijving", required=False)
+    voortgang_label = CharBlock(
+        label="Voortgangslabel",
+        max_length=50,
+        required=False,
+        default="Current Progress",
+    )
+    percentage = IntegerBlock(
+        label="Percentage",
+        default=0,
+        help_text="Voortgang in procenten (0-100).",
+    )
+    huidige_label = CharBlock(
+        label="Label huidige waarde",
+        max_length=30,
+        help_text="Bv. '0 MILES'",
+    )
+    doel_label = CharBlock(
+        label="Label doelwaarde",
+        max_length=30,
+        help_text="Bv. '10,000 MILES'",
+    )
+
+    class Meta:
+        template = "blocks/doel_tracker_block.html"
+        icon = "tasks"
+        label = "Doeltracker"
+
+
+class NieuwsbriefCTABlock(StructBlock):
+    """Nieuwsbrief-aanmeldsectie met afbeelding."""
+
+    titel = CharBlock(label="Titel", max_length=150)
+    tekst = TextBlock(label="Tekst", required=False)
+    afbeelding = ImageChooserBlock(label="Afbeelding", required=False)
+    placeholder_tekst = CharBlock(
+        label="Placeholder e-mailveld",
+        max_length=50,
+        default="YOUR EMAIL ADDRESS",
+    )
+    knop_tekst = CharBlock(label="Knoptekst", max_length=30, default="SIGN UP")
+
+    class Meta:
+        template = "blocks/nieuwsbrief_cta_block.html"
+        icon = "mail"
+        label = "Nieuwsbrief CTA"
+
+
 # ─── Exportlijst ──────────────────────────────────────────────────────────────
 
 STANDARD_BLOCKS = StreamBlock(
@@ -362,6 +532,10 @@ STANDARD_BLOCKS = StreamBlock(
         ("faq", FAQBlock()),
         ("genummerde_kenmerken", GenummerdeFeaturesBlock()),
         ("contact_cta", ContactCTABlock()),
+        ("evenementen_raster", EventenRasterBlock()),
+        ("routes_raster", RoutesRasterBlock()),
+        ("doel_tracker", DoelTrackerBlock()),
+        ("nieuwsbrief_cta", NieuwsbriefCTABlock()),
     ],
     use_json_field=True,
 )

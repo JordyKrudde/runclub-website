@@ -1,21 +1,37 @@
 {% load wagtailimages_tags %}
 
 <section class="hero-blok">
-    {% if value.afbeelding %}
-        {% image value.afbeelding fill-1600x700 as hero_img %}
-        <div class="hero-blok__achtergrond" style="background-image: url('{{ hero_img.url }}');" aria-hidden="true"></div>
-    {% endif %}
-    <div class="hero-blok__inhoud">
-        <h1 class="hero-blok__titel">{{ value.titel }}</h1>
-        {% if value.subtitel %}
-            <p class="hero-blok__subtitel">{{ value.subtitel }}</p>
-        {% endif %}
-        {% if value.cta_tekst %}
-            {% if value.cta_interne_link %}
-                <a href="{{ value.cta_interne_link.url }}" class="knop knop--primair">{{ value.cta_tekst }}</a>
-            {% elif value.cta_externe_link %}
-                <a href="{{ value.cta_externe_link }}" class="knop knop--primair" target="_blank" rel="noopener noreferrer">{{ value.cta_tekst }}</a>
+    <div class="hero-blok__inner">
+        <div class="hero-blok__tekst">
+            {% if value.badge_tekst %}
+                <span class="hero-blok__badge">{{ value.badge_tekst }}</span>
             {% endif %}
+            <h1 class="hero-blok__titel">{{ value.titel }}</h1>
+            {% if value.subtitel %}
+                <p class="hero-blok__subtitel">{{ value.subtitel }}</p>
+            {% endif %}
+            <div class="hero-blok__ctas">
+                {% if value.cta_tekst %}
+                    {% if value.cta_interne_link %}
+                        <a href="{{ value.cta_interne_link.url }}" class="knop knop--primair knop--groot">{{ value.cta_tekst }}</a>
+                    {% elif value.cta_externe_link %}
+                        <a href="{{ value.cta_externe_link }}" class="knop knop--primair knop--groot" target="_blank" rel="noopener noreferrer">{{ value.cta_tekst }}</a>
+                    {% endif %}
+                {% endif %}
+                {% if value.secundaire_cta_tekst %}
+                    {% if value.secundaire_cta_interne_link %}
+                        <a href="{{ value.secundaire_cta_interne_link.url }}" class="knop knop--secundair knop--groot">{{ value.secundaire_cta_tekst }}</a>
+                    {% elif value.secundaire_cta_externe_link %}
+                        <a href="{{ value.secundaire_cta_externe_link }}" class="knop knop--secundair knop--groot" target="_blank" rel="noopener noreferrer">{{ value.secundaire_cta_tekst }}</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% if value.afbeelding %}
+            <div class="hero-blok__afbeelding-wrapper">
+                {% image value.afbeelding fill-800x800 as hero_img %}
+                <img src="{{ hero_img.url }}" alt="" class="hero-blok__afbeelding" loading="lazy">
+            </div>
         {% endif %}
     </div>
 </section>

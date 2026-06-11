@@ -1,0 +1,22 @@
+{% load wagtailimages_tags %}
+
+<section class="nieuwsbrief-cta-blok">
+    <div class="container nieuwsbrief-cta-blok__inner">
+        <div class="nieuwsbrief-cta-blok__tekst">
+            <h2 class="nieuwsbrief-cta-blok__titel">{{ value.titel|linebreaksbr }}</h2>
+            {% if value.tekst %}
+                <p class="nieuwsbrief-cta-blok__beschrijving">{{ value.tekst }}</p>
+            {% endif %}
+            <form class="nieuwsbrief-cta-blok__form" onsubmit="event.preventDefault();">
+                <input type="email" class="nieuwsbrief-cta-blok__input" placeholder="{{ value.placeholder_tekst }}" required>
+                <button type="submit" class="knop knop--donker knop--groot">{{ value.knop_tekst }}</button>
+            </form>
+        </div>
+        {% if value.afbeelding %}
+            <div class="nieuwsbrief-cta-blok__afbeelding-wrapper">
+                {% image value.afbeelding fill-800x640 as cta_img %}
+                <img src="{{ cta_img.url }}" alt="" class="nieuwsbrief-cta-blok__afbeelding" loading="lazy">
+            </div>
+        {% endif %}
+    </div>
+</section>

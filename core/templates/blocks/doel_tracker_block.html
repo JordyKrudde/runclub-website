@@ -1,0 +1,25 @@
+<section class="doel-tracker-blok">
+    <div class="container doel-tracker-blok__inner">
+        <div class="doel-tracker-blok__tekst">
+            <h3 class="doel-tracker-blok__titel">{{ value.titel }}</h3>
+            {% if value.beschrijving %}
+                <p class="doel-tracker-blok__beschrijving">{{ value.beschrijving }}</p>
+            {% endif %}
+        </div>
+        <div class="doel-tracker-blok__balk-wrapper">
+            <div class="doel-tracker-blok__balk-header">
+                {% if value.voortgang_label %}
+                    <span class="doel-tracker-blok__voortgang-label">{{ value.voortgang_label }}</span>
+                {% endif %}
+                <span class="doel-tracker-blok__percentage">{{ value.percentage }}%</span>
+            </div>
+            <div class="doel-tracker-blok__balk">
+                <div class="doel-tracker-blok__balk-vulling" style="width: {{ value.percentage }}%;"></div>
+            </div>
+            <div class="doel-tracker-blok__labels">
+                <span>{{ value.huidige_label }}</span>
+                <span>{{ value.doel_label }}</span>
+            </div>
+        </div>
+    </div>
+</section>

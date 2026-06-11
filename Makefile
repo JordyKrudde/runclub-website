@@ -1,41 +1,41 @@
-.PHONY: install run migrations migrate superuser shell collectstatic fixtures \
+.PHONY: install run migrations migrate superuser shell collectstatic runclub-home \
         up down build logs restart \
-        dmigrations dmigrate dsuperuser dshell dcollectstatic dfixtures \
+        dmigrations dmigrate dsuperuser dshell dcollectstatic drunclub-home \
         fresh dfresh
 
 DC = docker compose
 WEB = $(DC) exec web
 
+PYTHON = .venv/bin/python
+MANAGE = DJANGO_SETTINGS_MODULE=runclub.settings.dev $(PYTHON) manage.py
+
 # ─── Lokaal (zonder Docker) ──────────────────────────────────────────────────
 
 install:
-	pip install -r requirements/dev.txt
+	python3 -m venv .venv
+	$(PYTHON) -m pip install -r requirements/dev.txt
 
 run:
-	python manage.py runserver
+	$(MANAGE) runserver
 
 migrations:
-	python manage.py makemigrations
+	$(MANAGE) makemigrations
 
 migrate:
-	python manage.py migrate
+	$(MANAGE) migrate
 
 superuser:
-	python manage.py createsuperuser
+	$(MANAGE) createsuperuser
 
 shell:
-	python manage.py shell
+	$(MANAGE) shell
 
 collectstatic:
-	python manage.py collectstatic --no-input
+	$(MANAGE) collectstatic --no-input
 
-## Demo-pagina's en blokken-testinhoud aanmaken
-fixtures:
-	python manage.py build_fixtures
-
-## Demo-inhoud aanmaken en bestaande inhoud eerst verwijderen
-fixtures-leeg:
-	python manage.py build_fixtures --leeg
+## Bolt Run Club homepage (her)opbouwen
+runclub-home:
+	$(MANAGE) build_runclub_home
 
 ## Alles in één keer: installeer, migreer en start lokaal
 fresh:
@@ -93,13 +93,9 @@ dsuperuser:
 dcollectstatic:
 	$(WEB) python manage.py collectstatic --no-input
 
-## Demo-pagina's aanmaken in de container
-dfixtures:
-	$(WEB) python manage.py build_fixtures
-
-## Demo-inhoud aanmaken en bestaande inhoud eerst verwijderen (container)
-dfixtures-leeg:
-	$(WEB) python manage.py build_fixtures --leeg
+## Bolt Run Club homepage (her)opbouwen in de container
+drunclub-home:
+	$(WEB) python manage.py build_runclub_home
 
 ## Alles in één keer: build, start op achtergrond, migreer
 dfresh:

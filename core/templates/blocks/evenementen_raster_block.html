@@ -1,0 +1,60 @@
+{% load wagtailimages_tags %}
+
+<section class="evenementen-raster-blok">
+    <div class="container">
+        <div class="evenementen-raster-blok__header">
+            <div>
+                {% if value.label %}
+                    <span class="evenementen-raster-blok__label">{{ value.label }}</span>
+                {% endif %}
+                {% if value.titel %}
+                    <h2 class="sectie-titel">{{ value.titel }}</h2>
+                {% endif %}
+            </div>
+            {% if value.link_tekst and value.link_url %}
+                <a href="{{ value.link_url }}" class="evenementen-raster-blok__link">{{ value.link_tekst }}</a>
+            {% endif %}
+        </div>
+
+        <ul class="event-raster">
+            {% for event in value.events %}
+                <li class="event-kaart">
+                    <div class="event-kaart__afbeelding-wrapper">
+                        {% if event.afbeelding %}
+                            {% image event.afbeelding fill-600x400 as event_img %}
+                            <img src="{{ event_img.url }}" alt="{{ event.titel }}" class="event-kaart__afbeelding" loading="lazy">
+                        {% endif %}
+                        {% if event.categorie_tag %}
+                            <span class="event-kaart__categorie">{{ event.categorie_tag }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="event-kaart__inhoud">
+                        <div class="event-kaart__top">
+                            <div>
+                                <h3 class="event-kaart__titel">{{ event.titel }}</h3>
+                                {% if event.locatie %}
+                                    <p class="event-kaart__locatie">{{ event.locatie }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="event-kaart__datum">
+                                <span class="event-kaart__maand">{{ event.datum_maand }}</span>
+                                <span class="event-kaart__dag">{{ event.datum_dag }}</span>
+                            </div>
+                        </div>
+                        <div class="event-kaart__meta">
+                            {% if event.tijd %}<span class="event-kaart__badge">{{ event.tijd }}</span>{% endif %}
+                            {% if event.niveau %}<span class="event-kaart__badge event-kaart__badge--niveau">{{ event.niveau }}</span>{% endif %}
+                        </div>
+                        {% if event.knop_tekst %}
+                            {% if event.knop_link %}
+                                <a href="{{ event.knop_link }}" class="event-kaart__knop">{{ event.knop_tekst }}</a>
+                            {% else %}
+                                <span class="event-kaart__knop">{{ event.knop_tekst }}</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
