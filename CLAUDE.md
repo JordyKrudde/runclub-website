@@ -39,7 +39,10 @@ elkaar) zodra er nieuwe paginatypen nodig zijn.
 - Nieuwe paginatypen: voeg toe als subpage_type bij de juiste ouder.
 - Alle StreamField blokken staan in `core/blocks.py`.
 - Nieuwe blokken: voeg toe aan `STANDARD_BLOCKS` én maak een template in `core/templates/blocks/`.
-- Alle labels, verbose_name en help_text in het **Nederlands**.
+- Nieuwe code (labels, verbose_name, help_text, comments, identifiers) in het **Engels**.
+  Bestaande Nederlandse namen hoeven niet meegenomen te worden, maar pas ze
+  aan naar het Engels als je een blok/model toch al wijzigt.
+- Git commit messages in het **Engels**.
 - Geen logica in templates – alleen weergave.
 - SEO-velden (`seo_description`, `og_image`) zitten op elke pagina via `BasePage`.
 
