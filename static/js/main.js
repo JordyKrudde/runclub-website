@@ -14,38 +14,3 @@
   document.body.prepend(anker);
   observer.observe(anker);
 })();
-
-// ── Mobiel menu toggle ───────────────────────────────────────────────────────
-(function () {
-  const menuKnop = document.querySelector('.siteheader__menu-knop');
-  const nav = document.getElementById('mobiel-menu');
-  if (!menuKnop || !nav) return;
-
-  menuKnop.addEventListener('click', function () {
-    const isOpen = this.getAttribute('aria-expanded') === 'true';
-    this.setAttribute('aria-expanded', String(!isOpen));
-    this.classList.toggle('siteheader__menu-knop--open', !isOpen);
-    nav.classList.toggle('siteheader__nav--open', !isOpen);
-    document.body.style.overflow = isOpen ? '' : 'hidden';
-  });
-
-  // Sluit menu bij klik op een link
-  nav.querySelectorAll('.nav__link').forEach(link => {
-    link.addEventListener('click', () => {
-      menuKnop.setAttribute('aria-expanded', 'false');
-      menuKnop.classList.remove('siteheader__menu-knop--open');
-      nav.classList.remove('siteheader__nav--open');
-      document.body.style.overflow = '';
-    });
-  });
-
-  // Sluit menu met Escape-toets
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && menuKnop.getAttribute('aria-expanded') === 'true') {
-      menuKnop.setAttribute('aria-expanded', 'false');
-      menuKnop.classList.remove('siteheader__menu-knop--open');
-      nav.classList.remove('siteheader__nav--open');
-      document.body.style.overflow = '';
-    }
-  });
-})();
